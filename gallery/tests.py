@@ -43,3 +43,32 @@ class ImageModelTest(TestCase):
         )
         self.image.categories.add(self.category)
 
+    # testing image creation with proper attributes
+    def test_image_creation(self):
+        self.assertTrue(isinstance(self.image, Image))
+        self.assertEqual(self.image.title, "Test Image")
+        self.assertEqual(self.image.age_limit, 18)
+        self.assertEqual(str(self.image), "Test Image")
+
+    # testing image fields
+    def test_image_fields(self):
+        self.assertEqual(self.image._meta.get_field('title').max_length, 200)
+        self.assertEqual(self.image.categories.count(), 1)
+        self.assertEqual(self.image.categories.first(), self.category)
+        self.assertEqual(self.image.created_date, timezone.now().date())
+        self.assertTrue(self.image.age_limit > 0)
+
+    # testing image categories relationship
+    def test_image_categories_relationship(self):
+        category2 = Category.objects.create(name="Test Category 2")
+
+        self.image.categories.add(category2)
+
+        self.assertEqual(self.image.categories.count(), 2)
+        self.assertIn(category2, self.image.categories.all())
+
+    # deleting test image file
+    def tearDown(self):
+        if self.image.image:
+            if os.path.isfile(self.image.image.path):
+                os.remove(self.image.image.path)
