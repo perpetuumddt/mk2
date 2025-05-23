@@ -10,6 +10,15 @@ class CategoryModelTest(TestCase):
     def setUp(self):
         self.category = Category.objects.create(name="Test Category")
 
+    #testing category creation
+    def test_category_creation(self):
+        self.assertTrue(isinstance(self.category, Category))
+        self.assertEqual(self.category.name, "Test Category")
+        self.assertEqual(str(self.category), "Test Category")
+    #testing category name max length
+    def test_category_name_max_length(self):
+        max_length = self.category._meta.get_field('name').max_length
+        self.assertEqual(max_length, 100)
 
 #testing image model
 class ImageModelTest(TestCase):
