@@ -7,10 +7,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
-
 class Image(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images/')
@@ -20,7 +16,3 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
-
-    class Meta:
-        verbose_name = 'Image'
-        verbose_name_plural = 'Images'
